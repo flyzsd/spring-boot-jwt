@@ -1,0 +1,28 @@
+###
+POST http://localhost:8080/oauth/token?grant_type=password
+Authorization: Basic Y2xpZW50OnNlY3JldA==
+Content-Type: application/x-www-form-urlencoded
+
+username=user&password=user
+
+### password grant
+POST http://localhost:8080/oauth/token?grant_type=password
+Authorization: Basic Y2xpZW50OnNlY3JldA==
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=admin
+
+### client credentials grant
+POST http://localhost:8080/oauth/token?grant_type=client_credentials
+Authorization: Basic Y2xpZW50OnNlY3JldA==
+
+### doesn't work
+POST http://localhost:8080/oauth/token?grant_type=refresh_token&refresh_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJlZ3VNejROXzFEc2VGX1AwN2NjLVF2aHZyMGsiLCJleHAiOjE2MzA5ODgwOTcsImF1dGhvcml0aWVzIjpbIndyaXRlIiwicmVhZCJdLCJqdGkiOiJPYnlxNWdjWmJRMGZOWC03cFQ1cmtCMEdWWTAiLCJjbGllbnRfaWQiOiJjbGllbnQifQ.niSVIWdCpVd3r0Tms9uDcRcQuZTSo4-gkQQhx_BuUGUZpt8MyF_0F8M3aZmrC-96zUgQEvbvEGGZN2VB0Y68rZ2DxJf6i3cg0J1DqEpaY5DgE7cVGsTiwzXB0ZexFFlIsiRc1p0y2MsAo8Uq0S-zkM6CDFD99BqPtP1Rot45m8L85AupXbx2vmKtYkwhAWq-ZG1jpjyXCsMbbpZF4bdMIQxLMN4oqGG1zOaGLMg6PA9HIms5dGppm7ChVakRmffz-DLS7pJgq_cX3PB1iRRoOwjAGrU62nXmFSgP2IC5-8GEbpVcrE50Oc5gdkYPe4-ifP3iq4CWPSgauyrig2UxsQ
+
+### doesn't work
+GET http://localhost:8080/oauth/token_key
+Authorization: Basic Y2xpZW50OnNlY3JldA==
+
+###
+POST http://localhost:8080/oauth/check_token?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mjg0MzkzNjgsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsid3JpdGUiLCJyZWFkIl0sImp0aSI6Il96WXFGV3V5aGNUVENyZW9iQm9Xd2tMdjVIMCIsImNsaWVudF9pZCI6ImNsaWVudCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.wYmMLds1c6cqzzg-vkpyDw6o53Ghd0RrlCpg35Khq6ZfIoebxsej9d2hVBlkndP-KRlTlPS_GYeYtrxWk1eb6ntGltwwlAfym2YdxfDKeOyi_KPsbKIhXftX8fOfZvzYI-uIzLKGghOpOGWEMnSsxro9fOME1EHhX8Dfj_CgL_AUULJL_H7hcZAbMRBtlfNlkvBRNgTbqJCYKu_V51rAHZ0MCjdgIHX5tdaGfPxDe_3kCt4NjheESoe5j4OuJHk3HOZDY7_sO3y8lfXYzkD5lpL_F0FbE8e4Nn6D0-uyz_DvRmAZTso_rpuOxFOt37J4l7JGBcd6suC1ietdc13SOw
+

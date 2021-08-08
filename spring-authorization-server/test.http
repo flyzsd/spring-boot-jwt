@@ -21,7 +21,7 @@ Content-Type: application/x-www-form-urlencoded
 username=test&password=12345
 
 ###
-GET http://localhost:9000/oauth2/authorize?grant_type=authorization_code&response_type=code&client_id=messaging-client&scope=read&state=1234
+GET http://localhost:9000/oauth2/authorize?response_type=code&client_id=messaging-client&scope=read&state=1234
 
 ###
 POST http://localhost:9000/oauth2/token?grant_type=authorization_code&code=6YjscNBvXrJ77z1mrUIya-Ch4cqMC8Y-1Avvi2E6doa5_BcMrl6lYPuso-Vfb8VK6ftI1fyu8uZf4x_4bpyK6_G5J0kNTSDRE7VAYuwopsf642pGOKaZxMTrU3TIQuB4
@@ -30,4 +30,8 @@ Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ=
 ###
 POST http://localhost:9000/oauth2/token?grant_type=refresh_token&refresh_token=6j1SvC3hNHDaArLLILKo3dFUGW3g41SNEwFY2mXYlRNOv7PcKK_ftq1NxZETez25zy0uOaF0oT6T5djj9aVr9faGFV43-o8Q3yYf_gyg1cgXpj3TFwLmVkm-Z0-hnGtl
 
+#############
+POST http://localhost:9000/oauth2/introspect
+Content-Type: application/x-www-form-urlencoded
 
+token=eyJraWQiOiIyMWNlNjYxYi0yNDJkLTQzNzYtYjYwZC1kOWFmZjJlY2M0OWQiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJtZXNzYWdpbmctY2xpZW50IiwiYXVkIjoibWVzc2FnaW5nLWNsaWVudCIsIm5iZiI6MTYyODM0MTgxNiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjI4MzU5ODE2LCJpYXQiOjE2MjgzNDE4MTYsImp0aSI6IjE3ZjJlMTU4LTJlNTctNDM2Ni05YzQwLTY1ZmM1ZTM5NDM1NiJ9.kzFghuaJZ5b9K9x93VC5lwdAoEypajVC5APMb_FBBxnal93sca2FIc41kQY0HU5-C_q3dRXroiAaYHtxDJfSGlCnwz5i6Rf07vsr25pGPZIxV5v6vjOb0if4nWYLzs8SawEfaQaSN_1Zya7cZcddTDkkfk4EIfCvoKp4usKP_MY09_7ssqRS01NeZihdRoXF9bWuCqPWgo1VYJ16iGgJ3vMVMl90ce2blw_bdSvtIOBncagqhO7Z4pu34-s86r1KV9NTnmwYxzc7AEHh_bnExnpAXKT0yRsbRR3PVFb8LNT3Jqiz0zn1Lhr8141sM9Ai_0r46HI4TPtTUJFA1I0-EA
