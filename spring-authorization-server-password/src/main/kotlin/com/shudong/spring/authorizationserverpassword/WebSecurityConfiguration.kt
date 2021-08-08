@@ -8,10 +8,9 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 import org.springframework.security.oauth2.provider.token.TokenStore
@@ -20,31 +19,40 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 
+
 @EnableWebSecurity
 class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .requestMatchers().antMatchers("/login", "/oauth/authorize")
             .and()
-            .httpBasic()
-            .realmName("JWT")
+            .authorizeRequests().anyRequest().authenticated()
             .and()
-            .csrf()
-            .disable()
+            .formLogin().permitAll()
     }
+
+//    @Throws(Exception::class)
+//    override fun configure(http: HttpSecurity) {
+//        http
+//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//            .and()
+//            .httpBasic()
+//            .realmName("JWT")
+//            .and()
+//            .csrf()
+//            .disable()
+//    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder()
     }
 
     @Bean
     fun UserDetailsService(): UserDetailsService {
-        val u1 = User.withUsername("admin").password("$2a$10\$MTFVrdqbHOi.CCUhkrkZnOBdrZEfk3gzIUyZBdQvLWvdF/0pnkEO2")
-            .authorities("read", "write").build()
-        val u2 = User.withUsername("user").password("$2a$10$6KDklkImZgGANWR8pDAwSexf6Bt4Z9I0nDiwdih9Q38HI4eAkWk0u")
-            .authorities("read").build()
+        val u1 = User.withUsername("admin").password(passwordEncoder().encode("admin")).roles("ADMIN").authorities("read", "write").build()
+        val u2 = User.withUsername("user").password(passwordEncoder().encode("user")).roles("USER").authorities("read").build()
         return InMemoryUserDetailsManager(u1, u2)
     }
 

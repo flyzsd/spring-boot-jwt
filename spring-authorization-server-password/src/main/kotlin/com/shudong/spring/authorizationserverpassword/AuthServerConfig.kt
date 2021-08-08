@@ -33,6 +33,31 @@ class AuthorizationServerConfiguration(
     private val passwordEncoder: PasswordEncoder,
     private val authenticationManager: AuthenticationManager
 ) : AuthorizationServerConfigurerAdapter() {
+
+    @Throws(Exception::class)
+    override fun configure(oauthServer: AuthorizationServerSecurityConfigurer) {
+        oauthServer
+            .tokenKeyAccess("permitAll()")
+            .checkTokenAccess("isAuthenticated()")
+            .allowFormAuthenticationForClients()
+    }
+
+    @Throws(Exception::class)
+    override fun configure(clients: ClientDetailsServiceConfigurer) {
+        clients
+            .inMemory()
+            .withClient("client")
+            .secret(passwordEncoder.encode("secret"))
+            .authorizedGrantTypes("authorization_code", "password", "refresh_token", "client_credentials")
+            .authorities("READ_ONLY_CLIENT")
+            .scopes("read", "write")
+            .resourceIds("oauth2-resource")
+            .redirectUris("http://public-client/")
+            .autoApprove(false)
+            .accessTokenValiditySeconds(1200)
+            .refreshTokenValiditySeconds(240000)
+    }
+
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
         val tokenEnhancerChain = TokenEnhancerChain()
         tokenEnhancerChain.setTokenEnhancers(
@@ -46,22 +71,5 @@ class AuthorizationServerConfiguration(
             .reuseRefreshTokens(false)
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
-    }
-
-    @Throws(Exception::class)
-    override fun configure(clients: ClientDetailsServiceConfigurer) {
-        clients
-            .inMemory()
-            .withClient("client")
-            .secret(passwordEncoder.encode("secret"))
-            .authorizedGrantTypes("password", "refresh_token", "client_credentials")
-            .scopes("read", "write")
-    }
-
-    @Throws(Exception::class)
-    override fun configure(oauthServer: AuthorizationServerSecurityConfigurer) {
-        oauthServer
-            .tokenKeyAccess("hasAuthority('read')")
-            .checkTokenAccess("hasAuthority('read')")
     }
 }
