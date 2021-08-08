@@ -75,8 +75,9 @@ class AuthorizationServerConfig {
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .redirectUri("http://localhost:9000/authorized")
             .tokenSettings {
-                it.reuseRefreshTokens(true)
                 it.accessTokenTimeToLive(Duration.ofHours(5))
+                it.refreshTokenTimeToLive(Duration.ofDays(30))
+                it.reuseRefreshTokens(false)
             }
             .scope("read")
             .scope("write")
