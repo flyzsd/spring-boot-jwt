@@ -29,7 +29,6 @@ class CustomTokenEnhancer : TokenEnhancer {
 @EnableAuthorizationServer
 class AuthorizationServerConfiguration(
     private val jwtAccessTokenConverter: JwtAccessTokenConverter,
-    private val tokenStore: TokenStore,
     private val passwordEncoder: PasswordEncoder,
     private val authenticationManager: AuthenticationManager
 ) : AuthorizationServerConfigurerAdapter() {
@@ -38,8 +37,7 @@ class AuthorizationServerConfiguration(
     override fun configure(oauthServer: AuthorizationServerSecurityConfigurer) {
         oauthServer
             .tokenKeyAccess("permitAll()")
-            .checkTokenAccess("isAuthenticated()")
-            .allowFormAuthenticationForClients()
+            .checkTokenAccess("permitAll()")
     }
 
     @Throws(Exception::class)
@@ -51,11 +49,11 @@ class AuthorizationServerConfiguration(
             .authorizedGrantTypes("authorization_code", "password", "refresh_token", "client_credentials")
             .authorities("READ_ONLY_CLIENT")
             .scopes("read", "write")
-            .resourceIds("oauth2-resource")
+            .resourceIds("api")
             .redirectUris("http://public-client/")
             .autoApprove(false)
-            .accessTokenValiditySeconds(1200)
-            .refreshTokenValiditySeconds(240000)
+            .accessTokenValiditySeconds(43200)
+            .refreshTokenValiditySeconds(2592000)
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
@@ -67,8 +65,6 @@ class AuthorizationServerConfiguration(
             )
         )
         endpoints
-            .tokenStore(tokenStore)
-            .reuseRefreshTokens(false)
             .tokenEnhancer(tokenEnhancerChain)
             .authenticationManager(authenticationManager)
     }
